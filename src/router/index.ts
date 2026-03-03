@@ -4,8 +4,7 @@ import BaseLayout from '@/layouts/BaseLayout.vue';
 import { useUserStore } from '@/stores/user';
 
 const Login = () => import('@/views/LoginPage.vue');
-const Registro = () => import('@/views/RegistroPage.vue');
-const Camera = () => import('@/views/Camera.vue');  
+const Registro = () => import('@/views/RegistroPage.vue');  
 
 const routes: Array<RouteRecordRaw> = [
   {

@@ -89,7 +89,6 @@
                                     </ion-list></div>
                             </ion-accordion>
                         </ion-accordion-group>
-                    
                 </ion-list>
             </ion-content>
         </ion-menu>
@@ -102,8 +101,8 @@
         </ion-toolbar>
         </ion-header>
         <ion-content id="main-content" class="ion-padding">
-            
-             Presiona el botón en la barra de herramientas para abrir el menú y ver los juegos disponibles. </ion-content>
+             Presiona el botón en la barra de herramientas para abrir el menú y ver los juegos disponibles.
+        </ion-content>
     </ion-page>
 </template>
 
