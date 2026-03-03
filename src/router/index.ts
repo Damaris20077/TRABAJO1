@@ -4,7 +4,8 @@ import BaseLayout from '@/layouts/BaseLayout.vue';
 import { useUserStore } from '@/stores/user';
 
 const Login = () => import('@/views/LoginPage.vue');
-const Registro = () => import('@/views/RegistroPage.vue');  
+const Registro = () => import('@/views/RegistroPage.vue');
+const Camera = () => import('@/views/Camera.vue');  
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -30,7 +31,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/camara',
     name: 'Camara',
-    component: () => import('@/views/Camara.vue'),
+    component: () => import('@/views/Camera.vue'),
     meta: {
       requiresAuth: false
     }
