@@ -20,8 +20,9 @@
 import { ref } from 'vue';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/vue';
 import { Camera, CameraResultType } from '@capacitor/camera';
-const imageSrc = ref<string | undefined>();
+const imageSrc = ref<string | undefined>('');
 const imageInfo = ref<any>(null);
+
 const takePicture = async () => {
   const image = await Camera.getPhoto({
     quality: 90,

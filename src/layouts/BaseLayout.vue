@@ -15,80 +15,29 @@
                         <ion-label>{{ userStore.userData.usuario }}</ion-label>
                         <ion-button slot="end" fill="solid" size="small" @click="handleLogout">Salir</ion-button>
                     </ion-item>
-                    
-                        <ion-accordion-group>
-                            <ion-accordion value="first">
-                            <ion-item slot="header" color="light">
-                                <ion-label>Nintendo Games</ion-label>
-                            </ion-item>
+                    <ion-accordion-group>
+                        <template v-for="(menu, key) in contentStore.menu" :key="key">
+                            <ion-accordion :value="'menu-'+key">
+                                <ion-item slot="header" color="light">
+                                    <ion-label><i :class="menu.icon"></i> {{ menu.name }}</ion-label>
+                                </ion-item>
                                 <div slot="content">
                                     <ion-list>
-                                        <ion-item>
-                                            <ion-label>Pokémon Yellow</ion-label>
-                                        </ion-item>
-                                        <ion-item>
-                                            <ion-label>Mega Man X</ion-label>
-                                        </ion-item>
-                                        <ion-item>
-                                            <ion-label>The Legend of Zelda</ion-label>
-                                        </ion-item>
-                                        <ion-item>
-                                            <ion-label>Pac-Man</ion-label>
-                                        </ion-item>
-                                        <ion-item>
-                                            <ion-label>Super Mario World</ion-label>
-                                        </ion-item>
+                                        <template v-for="(item, itemKey) in menu.sub" :key="itemKey">
+                                            <ion-menu-toggle v-if="item.active === 'yes'">
+                                                <ion-item 
+                                                :router-link="'/'+item.url"
+                                                @click="contentStore.$getContent(item.internal_name)"
+                                                >
+                                                    <ion-label>{{ item.name }}</ion-label>
+                                                </ion-item>
+                                            </ion-menu-toggle>
+                                        </template>
                                     </ion-list>
                                 </div>
                             </ion-accordion>
-                            <ion-accordion value="second">
-                            <ion-item slot="header" color="light">
-                                <ion-label>PlayStation Games</ion-label>
-                            </ion-item>
-                                <div slot="content">
-                                    <ion-list>
-                                        <ion-item>
-                                            <ion-label>Marvel's Spider-Man 2</ion-label>
-                                        </ion-item>
-                                        <ion-item>
-                                            <ion-label>Bloodborne</ion-label>
-                                        </ion-item>
-                                        <ion-item>
-                                            <ion-label>Final Fantasy VII Rebirth</ion-label>
-                                        </ion-item>
-                                        <ion-item>
-                                            <ion-label>God of War Ragnarok</ion-label>
-                                        </ion-item>
-                                        <ion-item>
-                                            <ion-label>Horizon Forbidden West:</ion-label>
-                                        </ion-item>
-                                    </ion-list>
-                                </div>
-                            </ion-accordion>
-                            <ion-accordion value="third">
-                            <ion-item slot="header" color="light">
-                                <ion-label>PC Games</ion-label>
-                            </ion-item>
-                                <div slot="content">
-                                    <ion-list>
-                                        <ion-item>
-                                            <ion-label>Ciberpunk 2077</ion-label>
-                                        </ion-item>
-                                        <ion-item>
-                                            <ion-label>Baldur´s Gate 3</ion-label>
-                                        </ion-item>
-                                        <ion-item>
-                                            <ion-label>Counter-Strike 2</ion-label>
-                                        </ion-item>
-                                        <ion-item>
-                                            <ion-label>Red Dead Redemption 2</ion-label>
-                                        </ion-item>
-                                        <ion-item>
-                                            <ion-label>Elden Ring</ion-label>
-                                        </ion-item>
-                                    </ion-list></div>
-                            </ion-accordion>
-                        </ion-accordion-group>
+                        </template>
+                    </ion-accordion-group>                        
                 </ion-list>
             </ion-content>
         </ion-menu>
@@ -97,27 +46,34 @@
             <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
             </ion-buttons>
-            <ion-title>Inicio</ion-title>
+            <ion-title>{{ contentStore.content.contenido.name || 'Contenido' }}</ion-title>
+            <ion-progress-bar v-if="contentStore.loading" type="indeterminate"></ion-progress-bar>
         </ion-toolbar>
         </ion-header>
         <ion-content id="main-content" class="ion-padding">
-             Presiona el botón en la barra de herramientas para abrir el menú y ver los juegos disponibles.
+            <ion-router-outlet></ion-router-outlet>
         </ion-content>
     </ion-page>
 </template>
 
 <script setup lang="ts">
   import { IonButtons, IonContent, IonHeader, IonMenu, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
-  import { IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonList, IonAvatar } from '@ionic/vue';
+  import { IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonList, IonAvatar, IonButton, IonRouterOutlet,
+    IonMenuToggle, IonProgressBar } from '@ionic/vue';
   import { useUserStore } from '@/stores/user';
-  import { useRouter } from 'vue-router';
+  import {useContentStore} from '@/stores/content';
+  import { useRouter , useRoute} from 'vue-router';
   
+  const contentStore = useContentStore();
   const userStore = useUserStore();
   const router = useRouter();
+  const route = useRoute();
   async function handleLogout(){
     await userStore.$setLogin(null);
     router.push('/login');
   }
+
+  contentStore.$getContent(route.params.name as string);
 </script>
 
 <style scoped>

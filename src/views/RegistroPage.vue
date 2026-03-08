@@ -13,9 +13,9 @@
             <div class="form-wrapper">
                 <h2 class="form-title">Registro</h2>
                 <p class="form-subtitle">Crea tu cuenta para empezar</p>
-                
                 <ion-item lines="none">                
-                    <ion-input 
+                    <ion-input
+                        :disabled="loading"
                         label="Usuario" 
                         class="ion-margin-top"
                         label-placement="floating" 
@@ -25,6 +25,7 @@
                         @blur="$v.usuario?.$touch()">
                     </ion-input>
                 </ion-item>
+
                 <ion-item v-if="$v.usuario?.$errors?.length && $v.usuario.$dirty" lines="none">
                     <ion-label color="danger">
                         El usuario es requerido y debe tener al menos 4 caracteres
@@ -33,6 +34,7 @@
                 
                 <ion-item lines="none">                
                     <ion-input 
+                        :disabled="loading"
                         label="Email" 
                         class="ion-margin-top"
                         label-placement="floating" 
@@ -42,6 +44,7 @@
                         @blur="$v.email?.$touch()">
                     </ion-input>
                 </ion-item>
+
                 <ion-item v-if="$v.email?.$errors?.length && $v.email.$dirty" lines="none">
                     <ion-label color="danger">
                         El email es requerido y debe tener un formato válido
@@ -49,7 +52,8 @@
                 </ion-item>
                 
                 <ion-item lines="none">
-                    <ion-input 
+                    <ion-input
+                        :disabled="loading"
                         label="Contraseña" 
                         label-placement="floating" 
                         class="ion-margin-top"
@@ -67,8 +71,12 @@
                 </ion-item>   
                 
                 <ion-item class="ion-margin-top" lines="none">
-                    <ion-button @click="handleRegister" expand="block"> Registrarse </ion-button>
+                    <ion-button slot="end" size="default" @click="handleRegister" :disabled="loading"> 
+                        <span v-if="!loading">Registrarse</span>
+                        <ion-spinner v-if="loading" name="crescent"></ion-spinner>
+                    </ion-button>
                 </ion-item>
+
                 <ion-item class="ion-margin-top" lines="none">
                     <ion-button color="tertiary" @click="loadRandomUser" expand="block"> Presiona para ver un ejemplo de usuario </ion-button>
                 </ion-item>
@@ -86,15 +94,17 @@
 </template>
 <script lang="ts" setup>
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, 
-    IonInput, IonButton, IonLabel, IonButtons, alertController } from '@ionic/vue';
+    IonInput, IonButton, IonLabel, IonButtons, alertController, IonSpinner } from '@ionic/vue';
 import { useUserStore } from '@/stores/user';
 import { fetchRandomUsers } from '@/axios/axiosRandom';
 import { useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core'
 import { required, email, minLength } from '@vuelidate/validators'
+import { ref } from 'vue';
 
 const userStore = useUserStore();
 const router = useRouter();
+const loading = ref(false);
 
 const rules = {
     usuario: {
