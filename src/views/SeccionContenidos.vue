@@ -106,11 +106,31 @@ async function handleAvatarCapture() {
       source: CameraSource.Prompt
     });
 
-    if (image.webPath) {
-      userStore.setAvatar(image.webPath);
+    const dataUrl = await photoToDataUrl(image);
+    if (dataUrl) {
+      userStore.setAvatar(dataUrl);
     }
   } catch (error) {
     console.warn('No se pudo actualizar el avatar', error);
+  }
+}
+
+async function photoToDataUrl(image: { webPath?: string | null; dataUrl?: string | null; path?: string | null }) {
+  if (image.dataUrl) return image.dataUrl;
+  if (!image.webPath) return null;
+
+  try {
+    const response = await fetch(image.webPath);
+    const blob = await response.blob();
+    return await new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result));
+      reader.onerror = () => reject(new Error('No se pudo leer la imagen'));
+      reader.readAsDataURL(blob);
+    });
+  } catch (error) {
+    console.warn('No se pudo convertir la imagen a base64', error);
+    return null;
   }
 }
 

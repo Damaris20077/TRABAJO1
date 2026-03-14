@@ -19,7 +19,7 @@ export const useUserStore = defineStore('user', () => {
     const userData = ref(localStorage.getItem('userData') ? JSON.parse(localStorage.getItem('userData') as string) : null); 
 
     function getAvatarStorageKey(user: any | null) {
-        const key = user?.usuario || user?.email || 'default';
+        const key = user?.usuario || user?.username || user?.email || user?.id || 'default';
         return `avatar:${key}`;
     }
 
