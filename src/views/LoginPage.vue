@@ -1,67 +1,62 @@
 <template>
     <ion-page>
-        <ion-header>
-            <ion-toolbar>
-                <ion-title>Inicio de Sesión</ion-title>
-                <ion-buttons slot="end">
-                    <ion-button fill="solid" @click="router.push({ name: 'Registro'})">Registrarse</ion-button>
-                </ion-buttons>
-            </ion-toolbar>
-        </ion-header>
         <ion-content class="ion-padding auth-content">
             <div class="app-page-center">
-                <ion-card class="glass-card">
-                    <ion-card-header>
-                        <ion-card-title>Bienvenido</ion-card-title>
-                        <ion-card-subtitle>Ingresa tus credenciales para continuar</ion-card-subtitle>
-                    </ion-card-header>
-                    <ion-card-content>
-                        <ion-list class="form-list" lines="none">
-                            <ion-item>
-                                <ion-input 
-                                    label="Usuario" 
-                                    :disabled="loading"
-                                    label-placement="floating" 
-                                    fill="outline" 
-                                    v-model="userStore.login.username"
-                                    placeholder="Tu usuario o email">
-                                </ion-input>
-                            </ion-item>
-                            <ion-item>
-                                <ion-input 
-                                    label="Contraseña" 
-                                    :disabled="loading"
-                                    label-placement="floating" 
-                                    fill="outline" 
-                                    placeholder="Tu contraseña" 
-                                    v-model="userStore.login.password"
-                                    @keyup.enter="handleLogin"
-                                    type="password">
-                                </ion-input>
-                            </ion-item>
-                            <div class="form-actions">
-                                <ion-button 
-                                    size="default" 
-                                    @click="handleLogin"
-                                    :disabled="loading"
-                                    > 
-                                    <span v-if="!loading">Ingresar</span>
-                                    <ion-spinner v-if="loading" name="crescent"></ion-spinner>
-                                </ion-button>
-                            </div>
-                        </ion-list>
-                    </ion-card-content>
-                </ion-card>
+                <div class="login-shell">
+                    <div class="brand-block">
+                        <div class="logo-mark">MA</div>
+                        <h1 class="brand-title">MenuAccess</h1>
+                    </div>
+
+                    <div class="form-stack">
+                        <div class="field-group">
+                            <label class="field-label">Usuario o correo</label>
+                            <ion-input
+                                class="input-rounded"
+                                :disabled="loading"
+                                fill="outline"
+                                v-model="userStore.login.username"
+                                placeholder="Tu usuario o email">
+                            </ion-input>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Contraseña</label>
+                            <ion-input
+                                class="input-rounded"
+                                :disabled="loading"
+                                fill="outline"
+                                placeholder="Tu contraseña"
+                                v-model="userStore.login.password"
+                                @keyup.enter="handleLogin"
+                                type="password">
+                            </ion-input>
+                        </div>
+
+                        <ion-button
+                            class="login-button"
+                            expand="block"
+                            @click="handleLogin"
+                            :disabled="loading">
+                            <span v-if="!loading">Iniciar sesión</span>
+                            <ion-spinner v-if="loading" name="crescent"></ion-spinner>
+                        </ion-button>
+                    </div>
+
+                    <div class="register-block">
+                        <ion-text class="register-text">¿No tienes cuenta?</ion-text>
+                        <ion-button fill="clear" size="small" @click="router.push({ name: 'Registro'})">
+                            Registrarse
+                        </ion-button>
+                    </div>
+                </div>
             </div>
         </ion-content>
     </ion-page>
 
 </template>
 <script lang="ts" setup>
-import { IonPage, IonHeader, IonToolbar, 
-    IonTitle, IonContent, alertController, 
-    IonItem, IonInput, IonButton, IonButtons, IonSpinner, 
-    IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle, IonList } from '@ionic/vue';
+import { IonPage, IonContent, alertController, IonInput, IonButton, IonSpinner, IonText } from '@ionic/vue';
 import { useUserStore } from '@/stores/user';
 import { useContentStore } from '@/stores/content';
 import { useRouter } from 'vue-router';
@@ -99,5 +94,86 @@ async function handleLogin() {
 <style scoped>
 .auth-content {
     --background: var(--app-background);
+}
+
+.login-shell {
+    width: min(420px, 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: stretch;
+}
+
+.brand-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.logo-mark {
+    width: 88px;
+    height: 88px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    display: grid;
+    place-items: center;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.brand-title {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.form-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.field-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ion-color-step-650, #4f4f4f);
+}
+
+.input-rounded {
+    --border-radius: 18px;
+    --padding-start: 14px;
+    --padding-end: 14px;
+    --padding-top: 14px;
+    --padding-bottom: 14px;
+}
+
+.login-button {
+    --border-radius: 18px;
+    height: 48px;
+    margin-top: 6px;
+    font-weight: 600;
+}
+
+.register-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.register-text {
+    font-size: 14px;
+    color: var(--ion-color-step-600, #5b5b5b);
 }
 </style>
