@@ -2,35 +2,53 @@
 http://ionicframework.com/docs/theming/ */
 
 :root {
-  --ion-color-primary: #1e3a8a;
+  /* 🎨 COLORES PRINCIPALES */
+  --ion-color-primary: #e69730;
   --ion-color-primary-rgb: 30, 58, 138;
-  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast: #000000;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
   --ion-color-primary-shade: #1a3278;
-  --ion-color-primary-tint: #3650a1;
+  --ion-color-primary-tint: #f0642c;
 
-  --ion-color-secondary: #38bdf8;
+  --ion-color-secondary: #fa691c;
   --ion-color-secondary-rgb: 56, 189, 248;
-  --ion-color-secondary-contrast: #0f172a;
+  --ion-color-secondary-contrast: #c99045;
   --ion-color-secondary-contrast-rgb: 15, 23, 42;
-  --ion-color-secondary-shade: #31a8db;
+  --ion-color-secondary-shade: #db8031;
   --ion-color-secondary-tint: #5cc7f9;
 
-  --ion-color-tertiary: #0ea5e9;
+  --ion-color-tertiary: #844d12;
   --ion-color-tertiary-rgb: 14, 165, 233;
-  --ion-color-tertiary-contrast: #0f172a;
+  --ion-color-tertiary-contrast: #c96f20;
   --ion-color-tertiary-contrast-rgb: 15, 23, 42;
-  --ion-color-tertiary-shade: #0c91cc;
+  --ion-color-tertiary-shade: #f0642c;
   --ion-color-tertiary-tint: #30b1ee;
 
-  --app-background: linear-gradient(135deg, #f4f7fb 0%, #eef2f7 100%);
-  --app-surface: rgba(255, 255, 255, 0.82);
-  --app-surface-strong: rgba(255, 255, 255, 0.92);
-  --app-border: rgba(15, 23, 42, 0.12);
-  --app-text-strong: #0f172a;
+  /* 🌈 FONDO GENERAL */
+  --ion-background-color: #e9a6a8;
+  --app-background: linear-gradient(135deg, #e69238 0%, #eef2f7 100%);
+/*
+   🧾 SUPERFICIES */
+  --app-surface: rgb(231, 173, 173);
+  --app-surface-strong: rgba(255, 255, 255, 0.95);
+  --app-border: rgb(174, 192, 229);
+
+  /* ✍️ TEXTO (LO MÁS IMPORTANTE 🔥) */
+  --ion-text-color: #0f172a;
+  --ion-toolbar-color: #edeff3;
+  --ion-item-color: #e6e9f0;
+
+  --app-text-strong: #000000;
   --app-text-muted: #64748b;
   --app-text-dark: #0f172a;
+
+  /* 📌 TOOLBAR (barra donde dice USER) */
+  --ion-toolbar-background: #ffffff;
+
+  /* 📋 ITEMS */
+  --ion-item-background: #ffffff;
 }
+
 
 ion-content {
   --background: var(--app-background);
